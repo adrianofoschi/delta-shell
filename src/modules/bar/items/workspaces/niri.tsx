@@ -88,6 +88,11 @@ export function WorkspacesNiri({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
    function WorkspaceButton({ ws }: { ws: AstalNiri.Workspace }) {
       const classNames = createBinding(niri!, "focusedWorkspace").as((fws) => {
          const classes = ["bar-item"];
+         const style = config.bar.modules.workspaces.style;
+
+         if (style === "circular") {
+            classes.push("workspace");
+         }
 
          const active = fws?.id == ws.id;
          if (active) {
@@ -97,6 +102,20 @@ export function WorkspacesNiri({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
          return classes;
       });
       const windows = createBinding(ws, "windows");
+      const isCircular = config.bar.modules.workspaces.style === "circular";
+
+      if (isCircular) {
+         return (
+            <box cssClasses={classNames} hexpand={false} vexpand={false} halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER}>
+               <Gtk.GestureClick
+                  onPressed={(ctrl) => {
+                     const button = ctrl.get_current_button();
+                     if (button === Gdk.BUTTON_PRIMARY) ws.focus();
+                  }}
+               />
+            </box>
+         );
+      }
 
       return (
          <BarItem cssClasses={classNames}>

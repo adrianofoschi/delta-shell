@@ -109,6 +109,21 @@ window#bar {
             transition: background $transition;
          }
       }
+
+      // Workspace styling - rounded rectangle indicators
+      &.workspace {
+         padding: 0;
+         margin: 0;
+         background: rgba($bar-button-bg-hover, $bar-button-opacity);
+         border-radius: $widget-radius;
+         min-width: 8px;
+         min-height: 16px;
+         padding: 4px 12px;
+      }
+
+      &.workspace.active {
+         background: $accent;
+      }
    }
 
    @keyframes blink {

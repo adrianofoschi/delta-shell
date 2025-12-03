@@ -47,6 +47,7 @@ export const config = mkOptions(configFile, {
          workspaces: {
             taskbar: true,
             "show-index": true,
+            "style": "default" as "default" | "circular",
             "taskbar-icons": {} as Record<string, string>,
             "on-scroll-up": "workspace-up" as string | null,
             "on-scroll-down": "workspace-down" as string | null,
