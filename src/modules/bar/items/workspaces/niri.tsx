@@ -106,7 +106,9 @@ export function WorkspacesNiri({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
                   if (button === Gdk.BUTTON_PRIMARY) ws.focus();
                }}
             />
-            <label label={ws.idx.toString()} />
+            {config.bar.modules.workspaces["show-index"] && (
+               <label label={ws.idx.toString()} />
+            )}
             {config.bar.modules.workspaces.taskbar && (
                <For each={windows}>
                   {(client: AstalNiri.Window) => <AppButton client={client} />}

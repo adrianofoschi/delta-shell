@@ -1,9 +1,11 @@
 import app from "ags/gtk4/app";
 import ScreenRecord from "./src/services/screenrecord";
 import { hide_all_windows, windows_names } from "./windows";
-import { hasBarItem, toggleQsModule, toggleWindow } from "./src/lib/utils";
+import { hasBarItem, toggleQsModule, toggleWindow, bash } from "./src/lib/utils";
 import { config } from "./options";
+import Brightness from "./src/services/brightness";
 const screenrecord = ScreenRecord.get_default();
+const brightness = Brightness.get_default();
 
 export default function request(
    args: string[],
@@ -47,6 +49,37 @@ export default function request(
          default:
             print("Unknown request:", request);
             return response("Unknown request");
+            break;
+      }
+      return response("ok");
+   } else if (args[0] == "volume" && args[1]) {
+      switch (args[1]) {
+         case "up":
+            bash("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+");
+            break;
+         case "down":
+            bash("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-");
+            break;
+         case "mute":
+            bash("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle");
+            break;
+         default:
+            print("Unknown volume request:", args[1]);
+            return response("Unknown volume request");
+            break;
+      }
+      return response("ok");
+   } else if (args[0] == "brightness" && args[1]) {
+      switch (args[1]) {
+         case "up":
+            brightness.screen = Math.min(brightness.screen + 0.05, 1);
+            break;
+         case "down":
+            brightness.screen = Math.max(brightness.screen - 0.05, 0);
+            break;
+         default:
+            print("Unknown brightness request:", args[1]);
+            return response("Unknown brightness request");
             break;
       }
       return response("ok");
