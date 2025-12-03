@@ -121,6 +121,7 @@ export const config = mkOptions(configFile, {
       width: 400,
       height: 500,
       columns: 1,
+      "centered-popup": false,
    },
    clipboard: {
       enabled: true,
